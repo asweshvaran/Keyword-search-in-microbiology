@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Search Results</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .result-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .result-page {
+      margin-bottom: 10px;
+    }
+
+    .result-num-words,
+    .result-num-occurrences {
+      margin-bottom: 5px;
+    }
+
+    .result-file-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: #008CBA;
+      text-decoration: none;
+    }
+
+    .result-file-link:hover {
+      text-decoration: underline;
+    }
+</style>
+  </head>
+  <body>
+    <h1>Search Results for "{{ keyword }}"</h1>
+    {% if results %}
+      <p>{{ results|length }} results found:</p>
+      <ul>
+        {% for result in results %}
+          <li>
+            <div class="result-title">
+              {{ result[0].split("/")[-1] }}
+            </div>
+            <div class="result-page">Page: {{ result[1] }}</div>
+            <div class="result-num-words">Number of words on page: {{ result[2] }}</div>
+            <div class="result-num-occurrences">Number of times "{{ keyword }}" appears on page: {{ result[3] }}</div>
+            <a class="result-file-link" href="{{ result[0] }}" target="_blank">Open File</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No results found for "{{ keyword }}".</p>
+    {% endif %}
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PDF Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>PDF Search</h1>
+    <form method="GET">
+        <input type="text" name="keyword" placeholder="Enter keyword" required>
+        <input type="submit" value="Search">
+    </form>
+    {% if results %}
+        <h2>Results for "{{ keyword }}"</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>File</th>
+                    <th>Page Number</th>
+                    <th>Number of Words on Page</th>
+                    <th>Number of Occurrences</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                    <tr>
+                        <td>{{ result[0] }}</td>
+                        <td>{{ result[1] }}</td>
+                        <td>{{ result[2][result[1]-1] }}</td>
+                        <td>{{ result[3] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</body>
+</html>

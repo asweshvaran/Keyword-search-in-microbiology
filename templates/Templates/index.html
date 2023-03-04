@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Keywords on Microbiology</title>
+    <style>
+      /* Styles for the search form */
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+      }
+
+      label {
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      input[type=text] {
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+        width: 50%;
+      }
+
+      input[type=submit] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-bottom: 20px;
+      }
+
+      input[type=submit]:hover {
+        background-color: #3e8e41;
+      }
+
+      #timer {
+        font-size: 14px;
+        font-style: italic;
+      }
+
+      /* Styles for the page header */
+      h1 {
+        text-align: center;
+        font-size: 32px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        margin-top: 50px;
+        margin-bottom: 20px;
+      }
+    </style>
+    <script>
+      function startTimer() {
+        var duration = 0;
+        var interval = setInterval(function () {
+          duration += 1;
+          var minutes = Math.floor(duration / 60);
+          var seconds = duration % 60;
+          document.getElementById("timer").innerHTML = "Time elapsed: " + minutes + "m " + seconds + "s";
+        }, 1000);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Keywords on Microbiology</h1>
+    <form method="POST" action="/search" onsubmit="startTimer()">
+      <label for="keyword">Enter your keyword:</label>
+      <input type="text" name="keyword" id="keyword" required placeholder="e.g. microbiology">
+      <input type="submit" value="Search">
+      <br>
+      <span id="timer"></span>
+    </form>
+  </body>
+
+<head>
+    <title>Search Results</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .result-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .result-page {
+      margin-bottom: 10px;
+    }
+
+    .result-num-words,
+    .result-num-occurrences {
+      margin-bottom: 5px;
+    }
+
+    .result-file-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: #008CBA;
+      text-decoration: none;
+    }
+
+    .result-file-link:hover {
+      text-decoration: underline;
+    }
+
+</style>
+  </head>
+  <body>
+    <h1>Search Results for "{{ keyword }}"</h1>
+    {% if results %}
+      <p>{{ results|length }} results found:</p>
+      <ul>
+        {% for result in results %}
+          <li>
+            <div class="result-title">
+              {{ result[0].split("/")[-1] }}
+            </div>
+            <div class="result-page">Page: {{ result[1] }}</div>
+            <div class="result-num-words">Number of words on page: {{ result[2] }}</div>
+            <div class="result-num-occurrences">Number of times "{{ keyword }}" appears on page: {{ result[3] }}</div>
+            <a class="result-file-link" href="{{ result[0] }}" target="{{ result[0] }}">Open File</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No results found for "{{ keyword }}".</p>
+    {% endif %}
+  </body>
+</html>
